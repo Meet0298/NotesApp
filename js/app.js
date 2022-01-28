@@ -39,6 +39,7 @@ function shownotes() {
                         <h5 class="card-title">Note ${index + 1}</h5>
                         <p class="card-text">${element}</p>          
                         <button id="${index}" onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
+                        <button id="b${index}" onclick="colorNote(this.id)" class="btn btn-primary"><i class="bi bi-bookmark-star-fill"></i></button>
                     </div>
             </div>`;
     });
@@ -49,6 +50,17 @@ function shownotes() {
     else {
         notesElm.innerHTML = `Nothing to show. Add a note from above`;
     }
+}
+
+function colorNote(index) {
+    console.log("Clicked on bookmark no", index);
+    let ind = parseInt(index[1]);
+    let cardBody = document.getElementsByClassName("card-body")[ind + 1];
+    console.log("color",cardBody);
+    if (cardBody.style.backgroundColor != "red")
+        cardBody.style.backgroundColor = "red";
+    else
+        cardBody.style.backgroundColor = "transparent";
 }
 
 function deleteNote(index) {
@@ -76,10 +88,12 @@ search.addEventListener("input", function (element) {
     //console.log(notec);
     Array.from(noteCards).forEach(function (element) {
         //selects content inside <p>. 0 is used as there is only 1 p tag
+        console.log(element);
+        let cardBody = element.getElementsByClassName("card-body")[0];
         let cardTxt = element.getElementsByTagName("p")[0].innerText;
         //console.log(element);     displays entire notecard
         //console.log(cardTxt);   //displays text within p in notecard
-        if (cardTxt.includes(input)) {
+        if (cardTxt.includes(input) || cardBody.style.backgroundColor=="red") {
             element.style.display = "block"; // Element is rendered as a block-level element
         }
         else {
